@@ -10,13 +10,15 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const books_module_1 = require("./books/books.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://morvanq_db_user:i7eteoKwy02Hmqu9@default.u5lpb3r.mongodb.net/'),
+            config_1.ConfigModule.forRoot({ envFilePath: `.env.${process.env.NODE_ENV}` }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL || ""),
             books_module_1.BooksModule,
         ],
     })
