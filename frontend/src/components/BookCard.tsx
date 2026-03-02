@@ -16,13 +16,29 @@ export default function BookCard({ book, onStatusChange, onDelete }: Props) {
         : "bg-gray-100 text-gray-800";
 
   return (
-    <div className="border border-gray-200 p-4 shadow-sm flex flex-col text-gray-500">
+    <article
+      className="border border-slate-400 p-4 shadow-sm flex flex-col justify-between"
+      aria-labelledby={`title-${book._id}`}
+    >
       <div>
-        <h3 className="font-bold text-lg">{book.title}</h3>
-        <p>{book.author}</p>
-        <p>{book._id}</p>
+        <h3
+          id={`title-${book._id}`}
+          className="font-bold text-lg text-slate-900"
+        >
+          {book.title}
+        </h3>
+        <p className="text-slate-700">
+          <span className="sr-only">Auteur : </span>
+          {book.author}
+        </p>
+
+        <p className="text-xs text-slate-400 mt-1" aria-hidden="true">
+          Ref: {book._id}
+        </p>
+
         <span
-          className={`text-xs px-2 py-1 rounded mt-2 inline-block ${statusColor}`}
+          className={`text-xs font-semibold px-2 py-1 rounded mt-2 inline-block border ${statusColor}`}
+          role="status"
         >
           {book.status}
         </span>
@@ -32,18 +48,20 @@ export default function BookCard({ book, onStatusChange, onDelete }: Props) {
         {book.status !== "Terminé" && (
           <button
             onClick={() => onStatusChange(book._id, "Terminé")}
-            className="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-400"
+            className="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            aria-label={`Marquer "${book.title}" comme terminé`}
           >
-            Finir
+            Terminer
           </button>
         )}
         <button
           onClick={() => onDelete(book._id)}
-          className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-400"
+          className="text-xs bg-red-600 text-white px-3 py-1.5 rounded hover:bg-red-700 focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+          aria-label={`Supprimer le livre "${book.title}"`}
         >
           Supprimer
         </button>
       </div>
-    </div>
+    </article>
   );
 }
